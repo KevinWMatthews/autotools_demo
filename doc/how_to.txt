@@ -8,17 +8,26 @@ to help you create and maintain your configure.ac.
 It checks for common problems and logs them in two files:
     autoscan.log
     configure.scan
+In fact, ou can use configure.scan as a basis for your configure.ac file.
 
 See:
     https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/autoscan-Invocation.html
 
 To execute Autoconf, run:
-# autoreconf -v
+# autoreconf -iv            # --install --verbose
+It is important to use the --install flag; this will install programs that are needed.
+
 It is possible to run autoconf, but this won't properly invoke automake and libtool.
 To have autoconf run other autotools in verbose mode, run
 # autoreconf -vv
 The output is very verbose.
 
+
+Is your project configured for automake? If not, this will fail. You will need to run:
+# automake --add-missing --copy
+
+Right now let's package that up in an autogen script. Run:
+./autogen.sh
 
 Rather than using automake, this example uses hand-coded Makefile.in files. I wonder why.
 Generate Makefiles from their template .in files, using an out-of-tree/VPATH build:
