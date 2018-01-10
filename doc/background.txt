@@ -1,0 +1,45 @@
+Autoconf generates a configure script.
+
+The input to Autoconf is:
+    shell script with macros.
+    The macro language is called m4.
+    M4 means "m plus 4 more letters" (macro). Thanks, K&R.
+
+This input file is typically named configure.ac, though in old versions it is named configure.in.
+
+Autoconf usies square brackets [] as a quoting mechanism.
+Such quotes aren't always necessary but are safest.
+
+autoscan invokes autom4te on configure.ac.
+
+Autoreconf invokes several other tools:
+    Gettext (possibly)
+    aclocal
+    autom4te  ("automate")
+    Autoheader
+    Automake
+
+The configure script should:
+    perform checks
+    generate config.status
+    call config.status
+    generate config.log
+
+config.status should:
+    generate files from templates (text replacement within .in files)
+    It can be called to regenerate Makefiles when a template but not the environment has changed.
+    This skips the checks in the configure script.
+
+config.log contains:
+    configure script info:
+        configure command line invocation
+        platform info
+        core test info
+        line number of configure that generates config.status
+    config.status info:
+        the arguments to config.status
+        list of cache variables
+        list of output variables
+        exit code
+
+Makefiles depend on both Makefile.in on and config.status.
