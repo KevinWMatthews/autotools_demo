@@ -18,3 +18,9 @@ It is possible to run autoconf, but this won't properly invoke automake and libt
 To have autoconf run other autotools in verbose mode, run
 # autoreconf -vv
 The output is very verbose.
+
+
+Rather than using automake, this example uses hand-coded Makefile.in files. I wonder why.
+Generate Makefiles from their template .in files, using an out-of-tree/VPATH build:
+cd build
+../configure

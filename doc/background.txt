@@ -43,3 +43,7 @@ config.log contains:
         exit code
 
 Makefiles depend on both Makefile.in on and config.status.
+
+The configure script uses sed and awk to process templates and perform text replacements.
+The script *only* touches Autoconf variables, which are denoted with @ as follows:
+    @variable_name@
