@@ -1,4 +1,4 @@
-Autoconf generates a configure script.
+Autoconf generates a configure script from an input file.
 
 The input to Autoconf is:
     shell script with macros.
@@ -18,6 +18,14 @@ Autoreconf invokes several other tools:
     autom4te  ("automate")
     Autoheader
     Automake
+
+Autoheader parses configure.ac and generates include header templates (such as config.h.in).
+It searches for macros:
+    AC_CONFIG_HEADERS(<header_file>)
+    AC_CHECK_HEADERS(<standard_library>)
+and will generated <header_file>.in
+and will populate it with #undef statements required by <standard_library>.
+It also creates #undef's for package information from AC_INIT.
 
 The configure script should:
     perform checks
@@ -47,3 +55,81 @@ Makefiles depend on both Makefile.in on and config.status.
 The configure script uses sed and awk to process templates and perform text replacements.
 The script *only* touches Autoconf variables, which are denoted with @ as follows:
     @variable_name@
+
+
+Autoreconf generates:
+    Autom4te generates:
+        autom4te.cache
+    Autoheader generates:
+        config.h.in
+        config.h.in~        # Backup created if autoreconf detects changes to config.h.in
+    configure
+    Automake generates:
+        install-sh
+
+configure generates:
+    build/config.status
+    build/config.log
+
+    config.status generates:
+        build/config.h      # using Autoheader?
+        build/Makefile
+        build/*/Makefile
+
+
+configure.ac is responsible for four things:
+    initialization
+    file instantiation
+    check request
+    generate configure script
+
+There are four instantiating macros:
+    AC_CONFIG_FILES
+    AC_CONFIG_HEADERS
+    AC_CONFIG_COMMANDS
+    AC_CONFIG_LINKS
+These commands create a tag (?).
+
+AC_CONFIG_HEADERS causes AC_OUTPUT to create a header file full of pre-processor definitions.
+This is especially useful when there are too many to pass to the compiler using -D.
+The package should include this configuration header file before any other header files.
+For VPATH/out-of-tree builds, be sure to pass the compiler an -I option the allows it to find this config file.
+TODO go play with this! Once we configure Automake. The order of includes is important.
+The preprocessor only searches the current directory, which at that point will be the source directory.
+Should try to use '#include <config.h>' instead of '#include "config.h"'
+
+AC_CHECK_HEADERS populates the generated include header template based on whatever the specified header files.
+This can be used to enforce portability:
+#if HAVE_STDIO_H
+#include <stdio.h>
+#endif
+Simply adding the empty check AC_CHECK_HEADERS([]) adds several #undefs to config.h.in.
+
+autoscan will typically generate a call to AC_CHECK_HEADERS if it sees that your source code #includes a library. Theoretically.
+
+There are a variety of AC_PROG_* macros available to check for the existens of required programs.
+    AC_PROG_CC ensures that there is a working C compiler.
+    Autoscan noticed this because there are C source files.
+    Sets CC.
+    Defines:
+        @CC@
+        @CFLAGS@
+        @CPPFLAGS@
+        @EXEEXT@        executable extension
+        @OBJEXT@        object file extension
+
+
+    AC_PROG_INSTALL sets the output variable INSTALL to the name of a compatible install program.
+    This varies, actually, but is typicall some form of install-sh, install.sh, etc.
+    Defines:
+        @INSTALL@
+    Autoconf ships with a copy of install-sh.
+
+
+    You can always override anything that configure sets up by setting an environment variable before executing configure:
+        CC="$HOME/path/to/cc" ./configure
+    This means the AC_PROG_CC would do nothing?
+
+
+    AC_CHECK_PROG() can be used to check for general programs.
+    It's a trick; the tutorial has an entire section on it.

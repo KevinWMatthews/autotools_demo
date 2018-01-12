@@ -1,0 +1,3 @@
+# autoreconf -iv
+Generates configure from configure.ac.
+If configure.ac is updated, you must re-run autoreconf to regenerate the configure script.

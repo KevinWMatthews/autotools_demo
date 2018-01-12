@@ -16,6 +16,11 @@ See:
 To execute Autoconf, run:
 # autoreconf -iv            # --install --verbose
 It is important to use the --install flag; this will install programs that are needed.
+TODO I think we can run:
+# cd build
+# autoreconf -iv ..
+but I'm concerned that Automake will fail.
+
 
 It is possible to run autoconf, but this won't properly invoke automake and libtool.
 To have autoconf run other autotools in verbose mode, run
