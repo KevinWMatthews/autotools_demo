@@ -148,3 +148,8 @@ They output to 'the appropriate file descriptor'.
                                         ('$?' by default, but conveniently converts 0 [success] to 1 [failure]).
     AC_MSG_FAILURE(err, [exit-status])  AC_MSG_ERROR wrapper, but also prints that details are avaiable in config.log.
     AC_MSG_WARN(problem)                Print to standard error. configure continues to run.
+
+
+AC_OUTPUT actually generates the configure script.
+Must be the last thing that you call.
+It can be useful to add some print statements after this call to notify the user about what has been configured.
