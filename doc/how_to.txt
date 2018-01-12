@@ -8,7 +8,7 @@ to help you create and maintain your configure.ac.
 It checks for common problems and logs them in two files:
     autoscan.log
     configure.scan
-In fact, ou can use configure.scan as a basis for your configure.ac file.
+In fact, you can use configure.scan as a basis for your configure.ac file.
 
 See:
     https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.69/html_node/autoscan-Invocation.html
@@ -23,13 +23,18 @@ To have autoconf run other autotools in verbose mode, run
 The output is very verbose.
 
 
-Is your project configured for automake? If not, this will fail. You will need to run:
+Is your project configured for automake?
+If so, autoconf will run automake, which install the script install.sh.
+If not, automake will not be called and install.sh will not be created.
+This will cause the configure script to fail.
+You will also need to run:
 # automake --add-missing --copy
+You can ignore the automake error; we aren't configured for automake....
 
-Right now let's package that up in an autogen script. Run:
-./autogen.sh
+As a workaround, let's package that up in an autogen script. Run:
+# ./autogen.sh
 
-Rather than using automake, this example uses hand-coded Makefile.in files. I wonder why.
+Rather than using automake, this example uses hand-coded Makefile.in files. We'll get to Automake later.
 Generate Makefiles from their template .in files, using an out-of-tree/VPATH build:
-cd build
-../configure
+# cd build
+# ../configure
