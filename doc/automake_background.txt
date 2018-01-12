@@ -1,0 +1,95 @@
+I think Automake reads Makefiles (Makefile.am?) and generates Makefile.in templates
+for the configure script to process.
+
+GNU Coding standards require several files:
+    NEWS
+    README
+    AUTHORS
+    ChangeLog
+Why don't my other projects require this?
+
+
+There is quite a bit behind a statement like:
+    bin_PROGRAMS
+    <prefix>_<primary>
+
+
+Primaries:
+    A product type or product class.
+    Examples are:
+        PROGRAMS
+        SCRIPTS
+        PYTHON
+        SCRIPTS
+        DATA
+        JAVA
+        MANS
+        ...
+    Different primaries have different rules for execution and installation.
+
+
+Prefixes:
+    Specifics are defined in the Automake manual and "The GNU Coding Standards".
+    Search the AUTOMAKE manual for, say, "PROGRAMS primary".
+
+    Programs can be installed using:
+        Prefix      Directory
+        ---------------------
+        bin_        bindir
+        sbin_       sbindir
+        libexec_    libexecdir
+        noinst_     Do not install
+        ...
+    Libraries can be installed in:
+        Prefix      Directory
+        ---------------------
+        lib_        libdir
+        pkglib_     pkglibdir
+        noinst_     Do not install
+    Data can be installed in:
+        Prefix      Directory
+        ---------------------
+        data_       datadir
+        sysconf_    sysconfdir_
+        ...
+
+    There is also:
+        check       For target 'make check'
+        noinst      Do not install
+        EXTRA       Conditionally build. Read about it later.
+    
+    pkg prefixes have a special meaning that I should read about.
+
+
+Super prefixes:
+    These go before prefixes.
+
+    dist            Should be distributed
+    nodist          Do not distribute
+    nobase          ?
+
+    These can be combined.
+
+
+
+<product>_SOURCES:
+    List the source files that we be built into <product>'s executable.
+    <product> will depend on these files.
+    Private header files can/should be included. "These will be included in the distribution."
+    They won't actually be installed; that is done using include_HEADERS (include specifies the installation directory).
+    In some cases it is preferable to use noinst_HEADERS, but typically _SOURCES is used.
+    Strangely, a missing header file does not cause a configuration or build error.
+
+
+TODO go read about check_ for 'make check'.
+
+
+Convenience library:
+    A library that our package creates for use by itself. This library is not installed.
+    This isn't strictly necessary but it is convenient for enforcing modularity and reducing
+    the size of the _SOURCES list.
+    Convenience libraries are declared using directory-less prefixes:
+        noinst_
+        check_
+        EXTRA_
+    Read about this in: 8.3.5 Libtool Convenience Libraries

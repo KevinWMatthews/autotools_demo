@@ -16,6 +16,11 @@ AC_PREREQ([2.69])
 #   PACKAGE_BUGREPORT
 AC_INIT([autoconf_demo], [1.0], [kmatthews@cyberdata.net])
 
+# AM_INIT_AUTOMAKE([OPTIONS])
+# OPTIONS is optional, no pun intended.
+# Initialize Automake
+AM_INIT_AUTOMAKE
+
 # AC_CONFIG_SRCDIR (unique-file-in-source-dir)
 #
 # Sanity check. Verify that the directory for the generated configure script actually exists.

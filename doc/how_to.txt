@@ -16,6 +16,7 @@ See:
 To execute Autoconf, run:
 # autoreconf -iv            # --install --verbose
 It is important to use the --install flag; this will install programs that are needed.
+The --install flag is passed on to Automake, too.
 TODO I think we can run:
 # cd build
 # autoreconf -iv ..
@@ -36,10 +37,6 @@ You will also need to run:
 # automake --add-missing --copy
 You can ignore the automake error; we aren't configured for automake....
 
-As a workaround, let's package that up in an autogen script. Run:
-# ./autogen.sh
-
-Rather than using automake, this example uses hand-coded Makefile.in files. We'll get to Automake later.
 Generate Makefiles from their template .in files, using an out-of-tree/VPATH build:
 # cd build
 # ../configure
