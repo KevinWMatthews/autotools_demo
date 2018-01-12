@@ -13,8 +13,10 @@ bindir = @bindir@
 
 # Tool-related substitution variables
 CC				= @CC@
+LIBS			= @LIBS@
 CFLAGS 			= @CFLAGS@
 CPPFLAGS		= @CPPFLAGS@
+DEFS			= @DEFS@
 INSTALL			= @INSTALL@
 INSTALL_DATA	= @INSTALL_DATA@
 INSTALL_PROGRAM	= @INSTALL_PROGRAM@
@@ -34,7 +36,7 @@ check: all
 	@echo "*** ALL TESTS PASSED ***"
 
 jupiter: main.c
-	$(CC) -I. -I$(srcdir) -I.. $(CPPFLAGS) $(CFLAGS) -o $@ $(srcdir)/main.c
+	$(CC) -I. -I$(srcdir) -I.. $(CPPFLAGS) $(CFLAGS) -o $@ $(srcdir)/main.c $(LIBS)
 
 clean:
 	-rm jupiter

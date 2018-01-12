@@ -33,7 +33,10 @@ AC_CONFIG_HEADERS([config.h])
 
 # Check for libraries that our source code uses.
 # AC_CHECK_HEADERS (header-file..., [action-if-found], [action-if-not-found], [includes])
-AC_CHECK_HEADERS([stdio.h])
+AC_CHECK_HEADERS([stdio.h pthread.h],
+                 ,
+                 [AC_MSG_ERROR([Failed to find header file!])]
+)
 # Apparently you can add conditional includes to [includes] as follows:
 # [#ifdef HAVE_FOO_H
 #   #include <foo.h>
@@ -50,6 +53,16 @@ AC_PROG_CC
 AC_PROG_INSTALL
 
 # Checks for libraries.
+# AC_SEARCH_LIBS (function, search-libs, [action-if-found], [action-if-not-found], [other-libraries])
+AC_SEARCH_LIBS([pthread_create], [pthread],
+               ,
+               [AC_MSG_ERROR([Failed to find pthread library!])]
+)
+
+# This variable is used to handle the unlikely case that there is a header file but no library.
+# have_pthreads=no
+# AC_SEARCH_LIBS(pthread_create], [pthread], [have_pthreads=yes])
+
 
 # Checks for header files.
 

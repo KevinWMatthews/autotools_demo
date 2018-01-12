@@ -133,3 +133,18 @@ There are a variety of AC_PROG_* macros available to check for the existens of r
 
     AC_CHECK_PROG() can be used to check for general programs.
     It's a trick; the tutorial has an entire section on it.
+
+
+Why AC_SEARCH_LIBS instead of AC_CHECK_LIB ?
+
+
+Printing messages:
+AC_MSG_* macros are a wrapper around the shell command 'echo'.
+They output to 'the appropriate file descriptor'.
+    AC_MSG_CHECKING(feature)            Print the 'checking...' message. Must call AC_MSG_RESULT next.
+    AC_MSG_RESULT(result)               Print the results of a check. Must follow AC_MSG_CHECKING.
+    AC_MSG_NOTICE(message)              Print a message to the user (on stdout?).
+    AC_MSG_ERROR(err, [exit-status])    Print err msg and exits configure with exit-status
+                                        ('$?' by default, but conveniently converts 0 [success] to 1 [failure]).
+    AC_MSG_FAILURE(err, [exit-status])  AC_MSG_ERROR wrapper, but also prints that details are avaiable in config.log.
+    AC_MSG_WARN(problem)                Print to standard error. configure continues to run.
