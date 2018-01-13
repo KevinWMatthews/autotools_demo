@@ -93,3 +93,30 @@ Convenience library:
         check_
         EXTRA_
     Read about this in: 8.3.5 Libtool Convenience Libraries
+
+_CFLAGS:
+    Specify C Compiler flags.
+    Can be specified on a file-wide basis (AM_CFLAGS) or per executable using <product>_CFLAGS.
+    *not* the same as preprocessor flags.
+    Do not use CFLAGS; this is inherited from Autoconf and is reserved for the end-user.
+
+_CPPFLAGS:
+    C PreProcessor flags (not C++ flags).
+    Specify -I and -D options here, for example.
+    Can be specified on a file-wide basis (AM_CPPFLAGS) or per executable using <product>_CPPFLAGS.
+    Do not use CPPFLAGS; this is inerited from Autoconf and is reserved for the end-user.
+    Searches for #include <> references only.
+    #include "" references are simply expected to exist in the specified directory relative to the referencing source file.
+    I don't know how to verify this.
+
+_INCLUDES:
+    Deprecated in favor of CPPFLAGS.
+
+
+<program>_LDADD:
+<library>_LIBADD:
+    Add  library to a program or library.
+    These work in different ways:
+        _LIBADD specifies a list of objects (lib*.a, *.o)
+        LDADD specifies a linker command line option -l<lib>
+

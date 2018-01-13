@@ -52,6 +52,11 @@ AC_CHECK_HEADERS([stdio.h pthread.h],
 # Determine which C compiler to use. Sets output variable CC.
 # Many Autoconf macros use a compiler themselves and actually call AC_REQUIRE([AC_PROG_CC]).
 AC_PROG_CC
+# AC_PROG_RANLIB
+# No arguments.
+AC_PROG_RANLIB
+
+# I don't seem to need AM_PROG_CC_C_O
 
 # AC_PROG_INSTALL
 # Accepts no arguments.
@@ -76,5 +81,6 @@ AC_SEARCH_LIBS([pthread_create], [pthread],
 # Checks for library functions.
 
 AC_CONFIG_FILES([Makefile
+                 common/Makefile
                  src/Makefile])
 AC_OUTPUT

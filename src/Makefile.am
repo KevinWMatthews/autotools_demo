@@ -6,3 +6,10 @@ bin_PROGRAMS = jupiter
 
 # List all source and header files that are required by the executable.
 jupiter_SOURCES = main.c
+
+# Specify C preprocessor flags.
+jupiter_CPPFLAGS = -I$(top_srcdir)/common
+
+# Add a library to the program.
+# The demo uses '../common/lib*.a' but I don't like this.
+jupiter_LDADD = $(top_builddir)/common/libjupiterprint.a
