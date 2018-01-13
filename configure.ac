@@ -36,17 +36,6 @@ AC_CONFIG_SRCDIR([src/main.c])
 # init-cmds:    initialize the variables in config.status (?)
 AC_CONFIG_HEADERS([config.h])
 
-# Check for libraries that our source code uses.
-# AC_CHECK_HEADERS (header-file..., [action-if-found], [action-if-not-found], [includes])
-AC_CHECK_HEADERS([stdio.h pthread.h],
-                 ,
-                 [AC_MSG_ERROR([Failed to find header file!])]
-)
-# Apparently you can add conditional includes to [includes] as follows:
-# [#ifdef HAVE_FOO_H
-#   #include <foo.h>
-# #endif]
-
 # Checks for programs.
 # AC_PROG_CC ([compiler-search-list])
 # Determine which C compiler to use. Sets output variable CC.
@@ -62,19 +51,54 @@ AC_PROG_RANLIB
 # Accepts no arguments.
 AC_PROG_INSTALL
 
-# Checks for libraries.
-# AC_SEARCH_LIBS (function, search-libs, [action-if-found], [action-if-not-found], [other-libraries])
-AC_SEARCH_LIBS([pthread_create], [pthread],
-               ,
-               [AC_MSG_ERROR([Failed to find pthread library!])]
+# Checks for command line options.
+# Can also use AC_ARG_WITH, depending on the context.
+# AC_ARG_ENABLE(feature, help-string, [action-if-given], [action-if-not-given])
+#
+# async-exec is the feature. The user can enable or disable it using:
+#   --enable-feature
+#   --disable-feature
+# Autoconf will populate enableval with the result of their selection with yes/no appropriate to their selection:
+#   --enable-feature    => enableval = yes
+#   --disable-feature   => enableval = no
+#
+# You must set the help text to correspond to the default value!
+AC_ARG_ENABLE([async-exec],
+              [AS_HELP_STRING([--disable-async-exec],
+                              [disable asynchrous execution/multi-threading])],
+              [async_exec=${enableval}],
+              [async_exec=yes]
 )
 
-# This variable is used to handle the unlikely case that there is a header file but no library.
-# have_pthreads=no
-# AC_SEARCH_LIBS(pthread_create], [pthread], [have_pthreads=yes])
+
+# Checks for libraries.
+# AC_SEARCH_LIBS (function, search-libs, [action-if-found], [action-if-not-found], [other-libraries])
+if test "x$async_exec" = "xyes"; then
+    AC_SEARCH_LIBS([pthread_create], [pthread],
+                   ,
+                   [AC_MSG_ERROR([Failed to find pthread library!])]
+    )
+    AC_CHECK_HEADERS([pthread.h],
+                    ,
+                    [AC_MSG_ERROR([Failed to find header file!])]
+    )
+    # AC_DEFINE (variable, value, [description])
+    # This symbol will be defined in config.h.
+    # The description is placed in config.h as well.
+    AC_DEFINE([ASYNC_EXEC], 1, [Define to 1 if asynchrounous exection/multi-threading is enabled])
+fi
 
 
 # Checks for header files.
+# AC_CHECK_HEADERS (header-file..., [action-if-found], [action-if-not-found], [includes])
+AC_CHECK_HEADERS([stdio.h],
+                 ,
+                 [AC_MSG_ERROR([Failed to find header file!])]
+)
+# Apparently you can add conditional includes to [includes] as follows:
+# [#ifdef HAVE_FOO_H
+#   #include <foo.h>
+# #endif]
 
 # Checks for typedefs, structures, and compiler characteristics.
 

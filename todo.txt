@@ -1,0 +1,4 @@
+For some reason having two calls to AC_CHECK_HEADERS() causes the check to stdio.h to throw a warning message when configure is passed --disable-async-exec:
+    configure: WARNING: stdio.h: accepted by the compiler, rejected by the preprocessor!
+    configure: WARNING: stdio.h: proceeding with the compiler's result
+Everything still seems to work fine.

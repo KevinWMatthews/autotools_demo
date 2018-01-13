@@ -98,11 +98,14 @@ TODO go play with this! Once we configure Automake. The order of includes is imp
 The preprocessor only searches the current directory, which at that point will be the source directory.
 Should try to use '#include <config.h>' instead of '#include "config.h"'
 
-AC_CHECK_HEADERS populates the generated include header template based on whatever the specified header files.
-This can be used to enforce portability:
-#if HAVE_STDIO_H
-#include <stdio.h>
-#endif
+AC_CHECK_HEADERS
+    Populates the generated include header template based on whatever the specified header files.
+    It defines the symbol HAVE_header-file_H in config.h.
+    This can be used to enforce portability:
+        #if HAVE_STDIO_H
+        #include <stdio.h>
+        #endif
+    AC_CHECK_HEADER() [singular] does not seem to define this symbol!
 Simply adding the empty check AC_CHECK_HEADERS([]) adds several #undefs to config.h.in.
 
 autoscan will typically generate a call to AC_CHECK_HEADERS if it sees that your source code #includes a library. Theoretically.
@@ -137,6 +140,26 @@ There are a variety of AC_PROG_* macros available to check for the existens of r
 
 Why AC_SEARCH_LIBS instead of AC_CHECK_LIB ?
 
+
+Optional arguments:
+    Use the one of the macros:
+        AC_ARG_ENABLE
+        AC_ARG_WITH
+    to allow the user to pass options to the configure script.
+
+    AC_ARG_WITH
+        optional sub-package
+        Say, which encryption package to use.
+    AC_ARG_ENABLE
+        include or exclude an optional feature
+
+    The choice is your preference.
+
+    Format help text using AS_HELP_STRING(). You can specify indent and wrap, but it will take care of it for you.
+
+It can be usefile to define a custom symbol:
+    AC_DEFINE (variable, value, [description])
+How can we document that this is available to the code? This shows up in our generated config.h file.
 
 Printing messages:
 AC_MSG_* macros are a wrapper around the shell command 'echo'.
