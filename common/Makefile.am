@@ -1,4 +1,4 @@
 # Declare a 'convenience library' that will nto be installed
-noinst_LIBRARIES = libjupiterprint.a
+noinst_LIBRARIES = libcommon.a
 
-libjupiterprint_a_SOURCES = jupiter_print.h jupiter_print.c
+libcommon_a_SOURCES = print.h print.c
