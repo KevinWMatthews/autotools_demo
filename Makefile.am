@@ -1,4 +1,4 @@
 # List subdirectories that Automake should process.
-# Procesed recursively, in the order given.
+# These are procesed recursively but in the order given.
 # The current directory '.' is implicitly listed last!
-SUBDIRS = common src
+SUBDIRS = common include libjupiter src

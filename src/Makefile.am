@@ -8,8 +8,9 @@ bin_PROGRAMS = jupiter
 jupiter_SOURCES = main.c
 
 # Specify C preprocessor flags.
-jupiter_CPPFLAGS = -I$(top_srcdir)/common
+jupiter_CPPFLAGS = -I$(top_srcdir)/include
 
 # Add a library to the program.
 # The demo uses '../common/lib*.a' but I don't like this.
-jupiter_LDADD = $(top_builddir)/common/libcommon.a
+# Use the LDADD primary to add a library to an executable (PROGRAMS).
+jupiter_LDADD = $(top_builddir)/libjupiter/libjupiter.la

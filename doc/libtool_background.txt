@@ -1,0 +1,64 @@
+Libtool will build libraries, shared or static.
+
+Libtool provides the script ltmain.sh.
+config.status executes this.
+ltmain.sh builds a custom version of the libtool script that is specific to your project. This script wraps the compiler, linker, etc.
+This libtool script is used by your project's makefiles.
+
+To force static libraries only, pass --disable-shared to the configure script.
+
+There is a standard shared library API on Linux systems:
+    dlopen
+    dlsym
+    dlclose
+Not all systems provide the dl library, however.
+To account for this, Libtool provides a shared library called ltdl.
+
+Automake has built-in support for Libtool using the primary LTLIBRARIES.
+
+
+Public header files for a shared library should be placed within include/
+They will be installed in $(prefix)/include
+You can override the installation directory using the pkginclude prefix (how? try this).
+
+
+.la files are 'libtool archive' files. They are text files that facilitate platform-independent names.
+
+Libraries that are completely internal should be referenced using relative paths in the build directory hierarchy.
+External libraries should not be referenced at all. Instead, LIBS should be set with appropriate -L and -l options.
+This is done using AC_CHECK_LIBS or AC_SEARCH_LIBS.
+
+libtool can be called with various mode options, including:
+    --mode=compile
+    --mode=link
+
+If a shared Libtool library (_LTLIBRARIES) depends on a static library (_LIBRARIES), there is a portability warning. To fix this warning, use create both using libtool (_LTLIBRARIES). Libtool can build both static and shared libraries.
+Libtool is used during compilation because shared and static object files must be compiled different (shared libraries must use position independent code?). The resulting object files are called libtool objects and have the suffix .lo.
+
+
+    Libtool interface numbers
+Libtool generates .so files with a variety of suffixes. These are an encoding of an interface range.
+    libname.so.<current>.<revision>.<age>
+    current
+        The current interface number.
+        Each time the interface is modified in any way, this value is incremented.
+        Starts at 0.
+    revision
+        Indicates a new release of the same interface.
+        There were no changes to the shared library's interface but the library was upgraded.
+        "A serial revision of the current interface."
+        Could be internal optimization, for example, or a bug fix (?).
+    age
+        The number of back-versions that are supported by the shared library.
+        current - age through current, inclusive.
+
+Use these rules for changing the interface number (for normal cases):
+    Start with version information of 0:0:0 for each libtool library. [This is done automatically by simply omitting the -version option from the list of linker flags passed to the libtool script.]
+    Update the version information only immediately before a public release of your software. More frequent updates are unnecessary, and only guarantee that the current interface number gets larger faster.
+    If the library source code has changed at all since the last update, then increment revision (c:r:a becomes c:r+1:a).
+    If any interfaces [exported functions or data] have been added, removed, or changed since the last update, increment current, and set revision to 0.
+    If any interfaces have been added since the last public release, then increment age.
+    If any interfaces have been removed since the last public release, then set age to 0.
+
+This versioning is honored by the linker.
+Remember how libOpenSSL worked? They had a list/file that specified which functions to include for each version of the library.

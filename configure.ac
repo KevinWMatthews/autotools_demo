@@ -21,6 +21,17 @@ AC_INIT([autoconf_demo], [1.0], [kmatthews@cyberdata.net])
 # Initialize Automake
 AM_INIT_AUTOMAKE
 
+# LT_PREREQ ( version )
+# Ensure that this version of Libtool is being used.
+# Are we still on 1.5?
+LT_PREREQ([2.2])
+
+# LT_INIT ( options )
+# For a full list of options, see the Libtool manual section 5.4.1
+# In the past this macro was named AC_PROG_LIBTOOL or AM_PROG_LIBTOOL.
+#   dlopen      Check for dlopen support
+LT_INIT([dlopen])
+
 # AC_CONFIG_SRCDIR (unique-file-in-source-dir)
 #
 # Sanity check. Verify that the directory for the generated configure script actually exists.
@@ -43,7 +54,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CC
 # AC_PROG_RANLIB
 # No arguments.
-AC_PROG_RANLIB
+# AC_PROG_RANLIB is rendered obsolete by LT_INIT
 
 # I don't seem to need AM_PROG_CC_C_O
 
@@ -106,5 +117,7 @@ AC_CHECK_HEADERS([stdio.h],
 
 AC_CONFIG_FILES([Makefile
                  common/Makefile
+                 include/Makefile
+                 libjupiter/Makefile
                  src/Makefile])
 AC_OUTPUT
