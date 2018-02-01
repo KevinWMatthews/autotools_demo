@@ -1,4 +1,12 @@
+Update to use:
+    AC_CONFIG_AUX_DIR([build-aux])
+    AM_SILENT_RULES([yes])
+
 For some reason having two calls to AC_CHECK_HEADERS() causes the check to stdio.h to throw a warning message when configure is passed --disable-async-exec:
     configure: WARNING: stdio.h: accepted by the compiler, rejected by the preprocessor!
     configure: WARNING: stdio.h: proceeding with the compiler's result
 Everything still seems to work fine.
+
+Add a demonstration of AC_ARG_WITH
+    This allows the user to use options of the form: --with-package/--without-package
+    Their selection will be stored in withval.
