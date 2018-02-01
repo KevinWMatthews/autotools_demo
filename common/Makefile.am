@@ -1,4 +1,4 @@
-# Declare a 'convenience library' that will nto be installed.
+# Declare a 'convenience library' that will not be installed.
 # Create a Libtool library instead of a regular library to avoid portability warnings
 # that occur when a shared library depends on a static library.
 #
